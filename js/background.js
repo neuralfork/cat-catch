@@ -246,39 +246,6 @@ async function findMedia(data, isRegex = false, filter = false, timer = false) {
         info.favIconUrl = webInfo?.favIconUrl;
         info.webUrl = webInfo?.url;
 
-        // 查询 CSS 选择器获取额外文本
-        info.selectorText = "";
-        if (G.cssSelector?.length && data.tabId > 0 && info.webUrl) {
-            // 查找匹配当前URL的规则
-            let matchedSelector = "";
-            for (let rule of G.cssSelector) {
-                if (!rule.state) { continue; }
-                rule.url.lastIndex = 0;
-                if (rule.url.test(info.webUrl)) {
-                    matchedSelector = rule.selector;
-                    break;
-                }
-            }
-            if (matchedSelector) {
-                try {
-                    const [result] = await chrome.scripting.executeScript({
-                        target: { tabId: data.tabId },
-                        func: (selector) => {
-                            try {
-                                const el = document.querySelector(selector);
-                                return el?.innerText?.trim() || el?.textContent?.trim() || "";
-                            } catch (e) { return ""; }
-                        },
-                        args: [matchedSelector]
-                    });
-                    info.selectorText = result?.result || "";
-                } catch (e) {
-                    console.log("CSS selector query failed:", e);
-                    info.selectorText = "";
-                }
-            }
-        }
-
         // 屏蔽资源
         if (!isRegex && G.blackList.has(data.requestId)) {
             G.blackList.delete(data.requestId);

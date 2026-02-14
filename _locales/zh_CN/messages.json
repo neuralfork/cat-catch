@@ -378,7 +378,7 @@
     "message": "使用自定义文件名保存文件(默认为网页标题)"
   },
   "getHtmlDOMOption": {
-    "message": "允许获取页面DOM(用于CSS/XPath选择器提取文件名)"
+    "message": "允许获取页面DOM(用于CSS选择器提取文件名)"
   },
   "saveAsOption": {
     "message": "下载完选择保存目录"

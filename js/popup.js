@@ -70,6 +70,22 @@ async function AddMedia(data, currentTab = true) {
     if (G.getHtmlDOM && !pageDOM) {
         pageDOM = await getPageDOM();
     }
+    // 获取 CSS selector 文本（仅在当前tab且有pageDOM时）
+    if (currentTab && G.cssSelector?.length && pageDOM && data.webUrl) {
+        for (let rule of G.cssSelector) {
+            if (!rule.state) continue;
+            try {
+                rule.url.lastIndex = 0;
+                if (rule.url.test(data.webUrl)) {
+                    const el = pageDOM.querySelector(rule.selector);
+                    data.selectorText = el?.innerText?.trim() || el?.textContent?.trim() || "";
+                }
+            } catch (e) {
+                data.selectorText = "";
+            }
+            if (data.selectorText) break;
+        }
+    }
     Object.defineProperty(data, "pageDOM", {
         get() { return pageDOM; }
     });

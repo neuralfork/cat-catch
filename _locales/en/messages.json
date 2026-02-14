@@ -378,7 +378,7 @@
     "message": "Use a custom filename to save the file (the default is the webpage title)"
   },
   "getHtmlDOMOption": {
-    "message": "Allow fetching page DOM (for CSS/XPath selector filename extraction)"
+    "message": "Allow fetching page DOM (for CSS selector filename extraction)"
   },
   "saveAsOption": {
     "message": "Choose the save directory after downloading"
